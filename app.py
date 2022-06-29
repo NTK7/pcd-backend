@@ -45,11 +45,15 @@ def upload():
 
         if (int(file_type) == detection_type["pneumonia"]):
             print('using the pneumonia modal')
+            # These are the prediction categories 
+            CATEGORIES = ["Pneumonia", "Normal"]
             model = pneumonia_model
         else:
+            # These are the prediction categories 
+            CATEGORIES = ["Covid", "Normal"]
             model = covid_model
             print('using the covid modal')
-            
+
         # Save the file to ./uploads
         basepath = os.path.dirname(__file__)
         file_path = os.path.join( basepath, 'uploads', secure_filename(f.filename) )
@@ -58,10 +62,9 @@ def upload():
         # Make prediction
         prediction = model_predict(file_path, model)
 
-        # These are the prediction categories 
-        CATEGORIES = ["Pneumonia", "Normal"]
         
         # getting the prediction result from the categories
+        print('prediction value', prediction[0][0])
         result = CATEGORIES[int(round(prediction[0][0]))]
         
         # returning the result
